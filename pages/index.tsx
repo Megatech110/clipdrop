@@ -8,7 +8,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * The goal is to move the api key to a backend service so we don't have to expose it to the client.
  * For now we use it here 👇 but you should build an api endpoint that handles the cleanup, and pulls the api key from an environment variable.
  */
-const apiKey = "YOUR_API_KEY";
 
 export default function ImageCleanup() {
   const [brushRadius, setBrushRadius] = useState(25);
@@ -48,16 +47,16 @@ export default function ImageCleanup() {
 
     try {
       const response = await axios.post(
-        "https://clipdrop-api.co/cleanup/v1",
+        "/api/cleanup",
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
-            "x-api-key": apiKey,
+            'Content-Type': 'multipart/form-data'
           },
-          responseType: "arraybuffer",
+          responseType: "arraybuffer"
         }
       );
+
       const responseImage = new Blob([response.data], { type: "image/png" });
       setClipDropResponse(URL.createObjectURL(responseImage));
       clear();
